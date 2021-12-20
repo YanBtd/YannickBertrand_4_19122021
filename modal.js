@@ -14,9 +14,12 @@ const PRENOM = document.getElementById("first");
 const NOM = document.getElementById("last");
 const EMAIL = document.getElementById("email");
 const NAISSANCE = document.getElementById("birthdate");
-const QUANTITE = document.getElementById("quantity");
+const NOMBRE = document.getElementById("quantity");
 const VILLE = document.querySelector("input[type=radio]");
 const CONDITIONS = document.getElementById("checkbox1");
+
+/* REGEX */
+const NOMBREREGEX = /^\+?(0|[1-9]\d*)$/;
 
 
 /***** EVENTLISTENERS *****/
@@ -45,7 +48,6 @@ function editNav() {
         x.className = "topnav";
     }
 }
-
 // fonction d'affichage 
 function launchModal() {
     // affichage du background
@@ -53,7 +55,6 @@ function launchModal() {
     // affichage du form modal
     FORM[0].style.display = "block";
 }
-
 // fonction de fermeture 
 function closeModal() {
     // fermeture du form modal (via le background)
@@ -61,7 +62,6 @@ function closeModal() {
     // fermeture fenêtre modale de confirmation de réservation
     SUCCESSMESSAGEDIV[0].style.display = "none";
 }
-
 // affichage fenêtre de confirmation 
 function afficherComfirmation() {
     // calcul hauteur du form
@@ -79,24 +79,35 @@ function afficherComfirmation() {
 function isPrenomValid() {
     let isValid = isTailleOk(PRENOM.value.length, 2);
     let inputPrenom = new Input(PRENOM, "Veuillez entrer 2 caractères ou plus pour le champ du Prénom.");
-    enleverOuAfficherErreur(inputPrenom, isValid)
+    enleverOuAfficherErreur(inputPrenom, isValid);
     return isValid;
 }
 // validation nom
 function isNomValid() {
     let isValid = isTailleOk(NOM.value.length, 2);
     let inputNom = new Input(NOM, "Veuillez entrer 2 caractères ou plus pour le champ du Nom.");
-    enleverOuAfficherErreur(inputNom, isValid)
+    enleverOuAfficherErreur(inputNom, isValid);
     return isValid;
 }
-// validation formulaire et affichage fenêtre de confirmation de réservation
+// validation nombre de tournois
+function isNombreValid() {
+    let isValid = isValeurValideRegex(NOMBRE.value, NOMBREREGEX);
+    let inputNombre = new Input(NOMBRE, "Veuillez entrer un Nombre.");
+    enleverOuAfficherErreur(inputNombre, isValid);
+  
+    return isValid;
+  }
+// validation formulaire et appel affichage fenêtre de confirmation de réservation
 function validerForm(e) {
+    // on stoppe la propagation de l'évenement
     e.preventDefault();
     let prenom = isPrenomValid();
     let nom = isNomValid();
+    let nombre = isNombreValid();
 
-    let isFormValid = prenom && nom;
+    let isFormValid = prenom && nom && nombre;
     if (isFormValid) {
+        // appel fonction d'affichage
         afficherComfirmation();
     }
 }
@@ -115,6 +126,10 @@ function enleverOuAfficherErreur(elmt, isValid) {
         elmt.afficherErreur();
     }
 }
+//
+function isValeurValideRegex(valeur, regex) {
+    return regex.test(valeur);
+  }
 
 /***** CLASSE *****/
 
