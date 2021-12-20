@@ -112,6 +112,21 @@ function isNaissanceValid() {
     enleverOuAfficherErreur(inputNaissance, isValid);
     return isValid;
 }
+// validation ville du tournoi
+function isVilleValid() {
+    let isValid = isRadioChecked();
+    let inputVille = new Input(VILLE, "Veuillez choisir la Ville du tournoi.");
+    enleverOuAfficherErreur(inputVille, isValid);
+    return isValid;
+}
+// validation conditions d'utilisation
+function isConditionsValid() {
+    let isValid = isCheckboxChecked("checkbox1");
+    let inputConditions = new Input(CONDITIONS, "Merci de vérifier que vous acceptez les conditions d'utilisation.");
+    enleverOuAfficherErreur(inputConditions, isValid);
+    return isValid;
+}
+
 // validation formulaire et appel affichage fenêtre de confirmation de réservation
 function validerForm(e) {
     // on stoppe la propagation de l'évenement
@@ -121,8 +136,10 @@ function validerForm(e) {
     let nombre = isNombreValid();
     let email = isEmailValid();
     let naissance = isNaissanceValid();
+    let ville = isVilleValid();
+    let conditions = isConditionsValid();
     // exécution des fonctions de validation
-    let isFormValid = prenom && nom && nombre && email && naissance;
+    let isFormValid = prenom && nom && nombre && email && naissance && ville && conditions;
     if (isFormValid) {
         // appel fonction d'affichage
         afficherComfirmation();
@@ -143,9 +160,17 @@ function enleverOuAfficherErreur(elmt, isValid) {
         elmt.afficherErreur();
     }
 }
-//
+// comparaison valeur saisie et regex
 function isValeurValideRegex(valeur, regex) {
     return regex.test(valeur);
+}
+// test si bouton-radio ville coché
+function isRadioChecked() {
+    return document.querySelectorAll("input[type=radio]:checked").length > 0;
+}
+// test si case conditions d'utilisation cochée
+function isCheckboxChecked(id) {
+    return document.getElementById(id).checked;
 }
 
 /***** CLASSE *****/
