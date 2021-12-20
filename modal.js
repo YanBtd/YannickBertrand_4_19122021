@@ -21,6 +21,7 @@ const CONDITIONS = document.getElementById("checkbox1");
 /* REGEX */
 const NOMBREREGEX = /^\+?(0|[1-9]\d*)$/;
 const EMAILREGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+const NAISSANCEREGEX = /^(19|20)\d{2}[-](0?[1-9]|1[012])[-](0[1-9]|[12]\d|3[01])$/;
 
 
 /***** EVENTLISTENERS *****/
@@ -104,6 +105,13 @@ function isEmailValid() {
     enleverOuAfficherErreur(inputEmail, isValid);
     return isValid;
 }
+// validation date de naissance
+function isNaissanceValid() {
+    let isValid = isValeurValideRegex(NAISSANCE.value, NAISSANCEREGEX);
+    let inputNaissance = new Input(NAISSANCE, "Veuillez entrer votre Date de naissance.");
+    enleverOuAfficherErreur(inputNaissance, isValid);
+    return isValid;
+}
 // validation formulaire et appel affichage fenêtre de confirmation de réservation
 function validerForm(e) {
     // on stoppe la propagation de l'évenement
@@ -112,8 +120,9 @@ function validerForm(e) {
     let nom = isNomValid();
     let nombre = isNombreValid();
     let email = isEmailValid();
+    let naissance = isNaissanceValid();
     // exécution des fonctions de validation
-    let isFormValid = prenom && nom && nombre && email;
+    let isFormValid = prenom && nom && nombre && email && naissance;
     if (isFormValid) {
         // appel fonction d'affichage
         afficherComfirmation();
