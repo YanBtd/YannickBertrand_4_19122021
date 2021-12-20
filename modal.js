@@ -20,6 +20,7 @@ const CONDITIONS = document.getElementById("checkbox1");
 
 /* REGEX */
 const NOMBREREGEX = /^\+?(0|[1-9]\d*)$/;
+const EMAILREGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 
 
 /***** EVENTLISTENERS *****/
@@ -94,9 +95,15 @@ function isNombreValid() {
     let isValid = isValeurValideRegex(NOMBRE.value, NOMBREREGEX);
     let inputNombre = new Input(NOMBRE, "Veuillez entrer un Nombre.");
     enleverOuAfficherErreur(inputNombre, isValid);
-  
     return isValid;
-  }
+}
+// validation email
+function isEmailValid() {
+    let isValid = isValeurValideRegex(EMAIL.value, EMAILREGEX);
+    let inputEmail = new Input(EMAIL, "Veuillez entrer une adresse E-mail valide.");
+    enleverOuAfficherErreur(inputEmail, isValid);
+    return isValid;
+}
 // validation formulaire et appel affichage fenêtre de confirmation de réservation
 function validerForm(e) {
     // on stoppe la propagation de l'évenement
@@ -104,8 +111,9 @@ function validerForm(e) {
     let prenom = isPrenomValid();
     let nom = isNomValid();
     let nombre = isNombreValid();
-
-    let isFormValid = prenom && nom && nombre;
+    let email = isEmailValid();
+    // exécution des fonctions de validation
+    let isFormValid = prenom && nom && nombre && email;
     if (isFormValid) {
         // appel fonction d'affichage
         afficherComfirmation();
@@ -129,7 +137,7 @@ function enleverOuAfficherErreur(elmt, isValid) {
 //
 function isValeurValideRegex(valeur, regex) {
     return regex.test(valeur);
-  }
+}
 
 /***** CLASSE *****/
 
