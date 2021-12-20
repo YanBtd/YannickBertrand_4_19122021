@@ -24,14 +24,17 @@ const CONDITIONS = document.getElementById("checkbox1");
 // ouverture formulaire modal au click Je M'inscris
 MODALBTN.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// fermeture formulaire modal au click sur la croix
+// fermeture formulaire modal et fenêtre modale de comfirmation au click sur la croix
 CLOSEMODALBTN.forEach(elmt => elmt.addEventListener("click", closeModal));
+SUCCESSCLOSEBTN.forEach(elmt => elmt.addEventListener("click", closeModal));
 
 // appel fonction de validation du form au click sur C'est parti
-FORM.forEach(elmt => elmt.addEventListener("submit", validate));
+FORM.forEach(elmt => elmt.addEventListener("submit", validerForm));
 
 
 /***** FUNCTIONS *****/
+
+// AFFICHAGES
 
 // affichage bouton de nav 
 function editNav() {
@@ -43,33 +46,60 @@ function editNav() {
     }
 }
 
-// fonction d'affichage du form modal
+// fonction d'affichage 
 function launchModal() {
+    // affichage du background
     MODALBG.style.display = "block";
+    // affichage du form modal
+    FORM[0].style.display = "block";
 }
 
-// fonction de fermeture du form modal
+// fonction de fermeture 
 function closeModal() {
+    // fermeture du form modal (via le background)
     MODALBG.style.display = "none";
+    // fermeture modale de comfirmation de réservation
+    SUCCESSMESSAGEDIV[0].style.display = "none";
+}
+
+// affichage fenêtre de comfirmation 
+function afficherComfirmation() {
+    // calcul hauteur du form
+    let currentHeight = FORM[0].offsetHeight;
+    // on cache le form
+    FORM[0].style.display = "none";
+    // fenêtre de comfirmation de réservation = même taille que le form
+    SUCCESSMESSAGEDIV[0].style.display = "flex";
+    SUCCESSMESSAGEDIV[0].style.height = currentHeight + "px";
 }
 
 // VALIDATIONS
 
 // validation prenom
-function isTailleOk(currentLength, minLength) {
-    return currentLength >= minLength;
-}
 function isPrenomValid() {
     let isValid = isTailleOk(PRENOM.value.length, 2);
     return isValid;
 }
-function validate(e) {
+// validation nom
+function isNomValid() {
+    let isValid = isTailleOk(NOM.value.length, 2);
+    return isValid;
+}
+// validation formulaire et affichage comfirmation de réservation
+function validerForm(e) {
     e.preventDefault();
     let prenom = isPrenomValid();
-    if (prenom) {
-        alert("prenom valide");
-    } else {
-        alert("prenom invalide");
+    let nom = isNomValid();
+    
+    let isFormValid = prenom && nom;
+    if (isFormValid) {
+        afficherComfirmation();
     }
-    console.log(prenom);
+}
+
+// OUTILS
+
+// test valeur saisie utilisateur 
+function isTailleOk(currentLength, minLength) {
+    return currentLength >= minLength;
 }
