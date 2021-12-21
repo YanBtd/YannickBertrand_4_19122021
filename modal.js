@@ -36,6 +36,11 @@ SUCCESSCLOSEBTN.forEach(elmt => elmt.addEventListener("click", closeModal));
 // appel fonction de validation du form au click sur C'est parti
 FORM.forEach(elmt => elmt.addEventListener("submit", validerForm));
 
+//    
+
+PRENOM.addEventListener("blur", isPrenomValid);
+
+
 
 /***** FUNCTIONS *****/
 
@@ -124,6 +129,7 @@ function isConditionsValid() {
     let isValid = isCheckboxChecked("checkbox1");
     let inputConditions = new Input(CONDITIONS, "Merci de vérifier que vous acceptez les conditions d'utilisation.");
     enleverOuAfficherErreur(inputConditions, isValid);
+
     return isValid;
 }
 
@@ -171,28 +177,4 @@ function isRadioChecked() {
 // test si case conditions d'utilisation cochée
 function isCheckboxChecked(id) {
     return document.getElementById(id).checked;
-}
-
-/***** CLASSE *****/
-
-// création d'un nouvel input pour afficher le message d'erreur
-class Input {
-    constructor(elmt, errMsg) {
-        this.elmt = elmt;
-        this.errMsg = errMsg;
-    }
-    // récupération du parent de l'élément
-    getParent() {
-        return this.elmt.parentElement;
-    }
-    // affichage du message d'erreur si erreur de saisie
-    afficherErreur() {
-        this.getParent().setAttribute("data-error-visible", "true");
-        this.getParent().setAttribute("data-error", this.errMsg);
-    }
-    // masquage du message d'erreur si saisie comforme
-    enleverErreur() {
-        this.getParent().removeAttribute("data-error-visible");
-        this.getParent().removeAttribute("data-error");
-    }
 }
