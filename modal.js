@@ -22,6 +22,8 @@ const CONDITIONS = document.getElementById("checkbox1");
 const NOMBREREGEX = /^\+?(0|[1-9]\d*)$/;
 const EMAILREGEX = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
 const NAISSANCEREGEX = /^(19|20)\d{2}[-](0?[1-9]|1[012])[-](0[1-9]|[12]\d|3[01])$/;
+// const TEXTEREGEX = /^[A-Za-z]+$/;
+const TEXTEREGEX = /^[a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.\s-]{2,25}$/;
 
 
 /***** EVENTLISTENERS *****/
@@ -86,14 +88,16 @@ function afficherComfirmation() {
 
 // validation prenom
 function isPrenomValid() {
-    let isValid = isTailleOk(PRENOM.value.length, 2);
+    // let isValid = isTailleOk(PRENOM.value.length, 2);
+    let isValid = isValeurValideRegex(PRENOM.value, TEXTEREGEX);
     let inputPrenom = new Input(PRENOM, "Veuillez entrer 2 caractères ou plus pour le champ du Prénom.");
     enleverOuAfficherErreur(inputPrenom, isValid);
     return isValid;
 }
 // validation nom
 function isNomValid() {
-    let isValid = isTailleOk(NOM.value.length, 2);
+    // let isValid = isTailleOk(NOM.value.length, 2);
+    let isValid = isValeurValideRegex(NOM.value, TEXTEREGEX);
     let inputNom = new Input(NOM, "Veuillez entrer 2 caractères ou plus pour le champ du Nom.");
     enleverOuAfficherErreur(inputNom, isValid);
     return isValid;
@@ -158,10 +162,10 @@ function validerForm(e) {
 
 // OUTILS
 
-// test valeur saisie utilisateur 
-function isTailleOk(currentLength, minLength) {
-    return currentLength >= minLength;
-}
+// // test valeur saisie utilisateur 
+// function isTailleOk(currentLength, minLength) {
+//     return currentLength >= minLength;
+// }
 // appel de la fonction adéquate si erreur ou non
 function enleverOuAfficherErreur(elmt, isValid) {
     if (isValid) {
