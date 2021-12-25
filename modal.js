@@ -36,10 +36,12 @@ SUCCESSCLOSEBTN.forEach(elmt => elmt.addEventListener("click", closeModal));
 // appel fonction de validation du form au click sur C'est parti
 FORM.forEach(elmt => elmt.addEventListener("submit", validerForm));
 
-//    
-
+// appel fonction de validation à la perte du focus  
 PRENOM.addEventListener("blur", isPrenomValid);
-
+NOM.addEventListener("blur", isNomValid);
+EMAIL.addEventListener("blur", isEmailValid);
+NAISSANCE.addEventListener("blur", isNaissanceValid);
+NOMBRE.addEventListener("blur", isNombreValid);
 
 
 /***** FUNCTIONS *****/
@@ -149,6 +151,8 @@ function validerForm(e) {
     if (isFormValid) {
         // appel fonction d'affichage
         afficherComfirmation();
+        // RAZ des champs du formulaire
+        FORM[0].reset();
     }
 }
 
