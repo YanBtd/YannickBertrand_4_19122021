@@ -62,6 +62,9 @@ img {
 .topnav .icon {
     display: none;
 }
+section h2 {
+    display: none;
+}
 main {
     font-size: 130%;
     font-weight: bolder;
